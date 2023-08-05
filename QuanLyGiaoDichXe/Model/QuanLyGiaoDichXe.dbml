@@ -1,0 +1,107 @@
+﻿<?xml version="1.0" encoding="utf-8"?><Database Name="QuanLyGiaoDichXe" Class="QuanLyGiaoDichXeDataContext" xmlns="http://schemas.microsoft.com/linqtosql/dbml/2007">
+  <Connection Mode="AppSettings" ConnectionString="Data Source=LAPTOP-74E2JF0P\MSSQLSERVER01;Initial Catalog=QuanLyGiaoDichXe;Integrated Security=True" SettingsObjectName="QuanLyGiaoDichXe.Properties.Settings" SettingsPropertyName="QuanLyGiaoDichXeConnectionString" Provider="System.Data.SqlClient" />
+  <Table Name="dbo.Customer" Member="Customers">
+    <Type Name="Customer">
+      <Column Name="Id" Type="System.Int32" DbType="Int NOT NULL IDENTITY" IsPrimaryKey="true" IsDbGenerated="true" CanBeNull="false" />
+      <Column Name="Username" Type="System.String" DbType="NVarChar(50)" CanBeNull="true" />
+      <Column Name="DisplayName" Type="System.String" DbType="NVarChar(100)" CanBeNull="true" />
+      <Column Name="Address" Type="System.String" DbType="NVarChar(100)" CanBeNull="true" />
+      <Column Name="Phone" Type="System.String" DbType="NVarChar(20)" CanBeNull="true" />
+      <Column Name="Email" Type="System.String" DbType="NVarChar(100)" CanBeNull="true" />
+      <Column Name="MoreInfo" Type="System.String" DbType="NVarChar(200)" CanBeNull="true" />
+      <Column Name="ContractDate" Type="System.DateTime" DbType="Date" CanBeNull="true" />
+      <Association Name="Customer_OutputInfo" Member="OutputInfos" ThisKey="Id" OtherKey="IdCustomer" Type="OutputInfo" />
+    </Type>
+  </Table>
+  <Table Name="dbo.Input" Member="Inputs">
+    <Type Name="Input">
+      <Column Name="Id" Type="System.String" DbType="NVarChar(128) NOT NULL" IsPrimaryKey="true" CanBeNull="false" />
+      <Column Name="DateInput" Type="System.DateTime" DbType="Date" CanBeNull="true" />
+      <Association Name="Input_InputInfo" Member="InputInfos" ThisKey="Id" OtherKey="IdInput" Type="InputInfo" />
+    </Type>
+  </Table>
+  <Table Name="dbo.InputInfo" Member="InputInfos">
+    <Type Name="InputInfo">
+      <Column Name="Id" Type="System.String" DbType="NVarChar(128) NOT NULL" IsPrimaryKey="true" CanBeNull="false" />
+      <Column Name="IdObject" Type="System.String" DbType="NVarChar(128) NOT NULL" CanBeNull="false" />
+      <Column Name="IdInput" Type="System.String" DbType="NVarChar(128) NOT NULL" CanBeNull="false" />
+      <Column Name="count" Type="System.Int32" DbType="Int" CanBeNull="true" />
+      <Column Name="InputPrice" Type="System.Double" DbType="Float" CanBeNull="true" />
+      <Column Name="OutputPrice" Type="System.Double" DbType="Float" CanBeNull="true" />
+      <Column Name="Status" Type="System.String" DbType="NVarChar(100)" CanBeNull="true" />
+      <Association Name="InputInfo_OutputInfo" Member="OutputInfos" ThisKey="Id" OtherKey="IdInputInfor" Type="OutputInfo" />
+      <Association Name="Input_InputInfo" Member="Input" ThisKey="IdInput" OtherKey="Id" Type="Input" IsForeignKey="true" />
+      <Association Name="Object_InputInfo" Member="Object" ThisKey="IdObject" OtherKey="Id" Type="Object" IsForeignKey="true" />
+    </Type>
+  </Table>
+  <Table Name="dbo.Objects" Member="Objects">
+    <Type Name="Object">
+      <Column Name="Id" Type="System.String" DbType="NVarChar(128) NOT NULL" IsPrimaryKey="true" CanBeNull="false" />
+      <Column Name="DisplayName" Type="System.String" DbType="NVarChar(100)" CanBeNull="true" />
+      <Column Name="IdUnit" Type="System.Int32" DbType="Int NOT NULL" CanBeNull="false" />
+      <Column Name="IdSuplier" Type="System.Int32" DbType="Int NOT NULL" CanBeNull="false" />
+      <Association Name="Object_InputInfo" Member="InputInfos" ThisKey="Id" OtherKey="IdObject" Type="InputInfo" />
+      <Association Name="Object_OutputInfo" Member="OutputInfos" ThisKey="Id" OtherKey="IdObject" Type="OutputInfo" />
+      <Association Name="Suplier_Object" Member="Suplier" ThisKey="IdSuplier" OtherKey="Id" Type="Suplier" IsForeignKey="true" />
+      <Association Name="Unit_Object" Member="Unit" ThisKey="IdUnit" OtherKey="Id" Type="Unit" IsForeignKey="true" />
+    </Type>
+  </Table>
+  <Table Name="dbo.Output" Member="Outputs">
+    <Type Name="Output">
+      <Column Name="Id" Type="System.String" DbType="NVarChar(128) NOT NULL" IsPrimaryKey="true" CanBeNull="false" />
+      <Column Name="DateInput" Type="System.DateTime" DbType="Date" CanBeNull="true" />
+      <Association Name="Output_OutputInfo" Member="OutputInfo" ThisKey="Id" OtherKey="Id" Type="OutputInfo" Cardinality="One" />
+    </Type>
+  </Table>
+  <Table Name="dbo.OutputInfo" Member="OutputInfos">
+    <Type Name="OutputInfo">
+      <Column Name="Id" Type="System.String" DbType="NVarChar(128) NOT NULL" IsPrimaryKey="true" CanBeNull="false" />
+      <Column Name="IdObject" Type="System.String" DbType="NVarChar(128) NOT NULL" CanBeNull="false" />
+      <Column Name="IdInputInfor" Type="System.String" DbType="NVarChar(128) NOT NULL" CanBeNull="false" />
+      <Column Name="IdCustomer" Type="System.Int32" DbType="Int NOT NULL" CanBeNull="false" />
+      <Column Name="count" Type="System.Int32" DbType="Int" CanBeNull="true" />
+      <Column Name="Status" Type="System.String" DbType="NVarChar(100)" CanBeNull="true" />
+      <Association Name="Customer_OutputInfo" Member="Customer" ThisKey="IdCustomer" OtherKey="Id" Type="Customer" IsForeignKey="true" />
+      <Association Name="Object_OutputInfo" Member="Object" ThisKey="IdObject" OtherKey="Id" Type="Object" IsForeignKey="true" />
+      <Association Name="InputInfo_OutputInfo" Member="InputInfo" ThisKey="IdInputInfor" OtherKey="Id" Type="InputInfo" IsForeignKey="true" />
+      <Association Name="Output_OutputInfo" Member="Output" ThisKey="Id" OtherKey="Id" Type="Output" IsForeignKey="true" />
+    </Type>
+  </Table>
+  <Table Name="dbo.Suplier" Member="Supliers">
+    <Type Name="Suplier">
+      <Column Name="Id" Type="System.Int32" DbType="Int NOT NULL IDENTITY" IsPrimaryKey="true" IsDbGenerated="true" CanBeNull="false" />
+      <Column Name="Username" Type="System.String" DbType="NVarChar(50)" CanBeNull="true" />
+      <Column Name="DisplayName" Type="System.String" DbType="NVarChar(100)" CanBeNull="true" />
+      <Column Name="Address" Type="System.String" DbType="NVarChar(100)" CanBeNull="true" />
+      <Column Name="Phone" Type="System.String" DbType="NVarChar(20)" CanBeNull="true" />
+      <Column Name="Email" Type="System.String" DbType="NVarChar(100)" CanBeNull="true" />
+      <Column Name="MoreInfo" Type="System.String" DbType="NVarChar(200)" CanBeNull="true" />
+      <Column Name="ContractDate" Type="System.DateTime" DbType="Date" CanBeNull="true" />
+      <Association Name="Suplier_Object" Member="Objects" ThisKey="Id" OtherKey="IdSuplier" Type="Object" />
+    </Type>
+  </Table>
+  <Table Name="dbo.Unit" Member="Units">
+    <Type Name="Unit">
+      <Column Name="Id" Type="System.Int32" DbType="Int NOT NULL IDENTITY" IsPrimaryKey="true" IsDbGenerated="true" CanBeNull="false" />
+      <Column Name="DisplayName" Type="System.String" DbType="NVarChar(100)" CanBeNull="true" />
+      <Association Name="Unit_Object" Member="Objects" ThisKey="Id" OtherKey="IdUnit" Type="Object" />
+    </Type>
+  </Table>
+  <Table Name="dbo.UserRole" Member="UserRoles">
+    <Type Name="UserRole">
+      <Column Name="Id" Type="System.Int32" DbType="Int NOT NULL IDENTITY" IsPrimaryKey="true" IsDbGenerated="true" CanBeNull="false" />
+      <Column Name="DisplayName" Type="System.String" DbType="NVarChar(100)" CanBeNull="true" />
+      <Association Name="UserRole_User" Member="Users" ThisKey="Id" OtherKey="IdRole" Type="User" />
+    </Type>
+  </Table>
+  <Table Name="dbo.Users" Member="Users">
+    <Type Name="User">
+      <Column Name="Id" Type="System.Int32" DbType="Int NOT NULL IDENTITY" IsPrimaryKey="true" IsDbGenerated="true" CanBeNull="false" />
+      <Column Name="DisplayName" Type="System.String" DbType="NVarChar(100)" CanBeNull="true" />
+      <Column Name="Username" Type="System.String" DbType="NVarChar(50)" CanBeNull="true" />
+      <Column Name="Password" Type="System.String" DbType="NVarChar(50)" CanBeNull="true" />
+      <Column Name="IdRole" Type="System.Int32" DbType="Int NOT NULL" CanBeNull="false" />
+      <Association Name="UserRole_User" Member="UserRole" ThisKey="IdRole" OtherKey="Id" Type="UserRole" IsForeignKey="true" />
+    </Type>
+  </Table>
+</Database>
